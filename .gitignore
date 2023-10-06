@@ -1,2 +1,5 @@
 /datasets
 /venv
+/.idea
+.gitignore
+.DS_Store
