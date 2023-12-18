@@ -12,6 +12,7 @@ from torchmetrics.classification import MulticlassConfusionMatrix as ConfusionMa
 from scipy.optimize import brentq
 from scipy.interpolate import interp1d
 from sklearn.metrics import roc_auc_score
+import matplotlib.pyplot as plt
 
 import CONFIG
 from CONFIG import model_config as mofig
@@ -83,10 +84,9 @@ def train(model, criterion, optimizer, train_loader, val_loader):
             train_labels.extend(label.cpu().detach())
             train_preds.extend(pred.cpu().detach())
 
-            print(f'Output shape: {output.shape}')
-            print(f'Label shape: {label.shape}')
-            print(f'Predicted shape: {pred.shape}')
-
+            #print(f'Output shape: {output.shape}')
+            #print(f'Label shape: {label.shape}')
+            
             loss = criterion(output, label)
             
             optimizer.zero_grad()
