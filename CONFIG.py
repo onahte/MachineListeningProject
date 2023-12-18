@@ -1,6 +1,10 @@
 import os
 from argparse import Namespace
+import torch
 
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+ 
 
 # Local
 #home = '/Users/eo/Documents/NJIT/CS698-MachineListening/Final'
@@ -27,18 +31,18 @@ model_config= Namespace(
     batch_size = 16,
     epochs = 40,
     learning_rate = 3e-3,
-    num_classes = 10,
-    patch_height = 64,
+    num_classes = 931,
+    patch_height = 256,
     patch_width = 1,
-    img_size = 64,
-    in_channels = 3,
+    img_size = 256,
+    in_channels = 4,
     num_heads = 8,
     dropout = 0.1,
-    hidden_dim = 768,
+    hidden_dim = 1536,
     adam_weight_decay = 0,
     adam_betas = (0.9, 0.999),
     num_encoders = 8,
-    embed_dim = 128,
-    num_patches = (64 ** 2) // (64 * 1)
+    emb_dim = 768,
+    num_patches = (256 ** 2) // (256 * 1)
 
 )

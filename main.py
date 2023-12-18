@@ -13,8 +13,7 @@ from Model import ViT
 from SRData import SRData
 
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
+device = CONFIG.device
 
 def main():
     setSeed(mofig.random_seed)
@@ -25,8 +24,9 @@ def main():
                                  lr=mofig.learning_rate,
                                  weight_decay=mofig.adam_weight_decay)
     train_loader, val_loader, test_loader = getDataLoaders()
-    trainTest(model, criterion, optimizer, train_loader, val_loader)
-    #train(model, criterion, optimizer, train_loader, val_loader)
+    #trainTest(model, criterion, optimizer, train_loader, val_loader)
+    with torch.autograd.set_detect_anomaly(True):
+        train(model, criterion, optimizer, train_loader, val_loader)
 
 def getDataLoaders():
     dataset_list = open(CONFIG.dataset_list).read()
@@ -61,14 +61,20 @@ def train(model, criterion, optimizer, train_loader, val_loader):
         for idx, data in enumerate(tqdm(train_loader)):
             img = data[0].float().to(device)
             label = data[1].to(device)
+            #print(f'img shape: {img.shape}')
+            #print(f'label shape: {label.shape}')
             
             y = model(img)
             y_label = torch.argmax(y, dim=1)
 
+            #print(f'y shape: {y.shape}') 
+            #print(f'y_label shape: {y_label.shape}')
+            #print(f'y_label: {y_label}')
+            
             train_labels.extend(label.cpu().detach())
             train_preds.extend(y_label.cpu().detach())
 
-            loss = criterion(img, label)
+            loss = criterion(y, label)
             
             optimizer.zero_grad()
             loss.backward()
