@@ -31,7 +31,7 @@ model_config= Namespace(
     batch_size = 16,
     epochs = 40,
     learning_rate = 3e-3,
-    num_classes = 923,
+    num_classes = 931,
     patch_height = 256,
     patch_width = 1,
     img_size = 256,
@@ -43,6 +43,6 @@ model_config= Namespace(
     adam_betas = (0.9, 0.999),
     num_encoders = 8,
     emb_dim = 768,
-    num_patches = (256 ** 2) // (256 * 1)
-
+    num_patches = (256 ** 2) // (256 * 1),
+    confusion_mat = os.path.join(home, 'confusion_matrix.png')
 )
