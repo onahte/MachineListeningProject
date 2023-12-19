@@ -32,8 +32,8 @@ def main():
                                  weight_decay=mofig.adam_weight_decay)
     train_loader, val_loader, test_loader = getDataLoaders()
     #trainTest(model, criterion, optimizer, train_loader, val_loader)
-    with torch.autograd.set_detect_anomaly(True):
-        train(model, criterion, optimizer, train_loader, val_loader)
+    #with torch.autograd.set_detect_anomaly(True):
+    train(model, criterion, optimizer, train_loader, val_loader)
 
     test(model, criterion, optimizer, train_loader, val_loader)
     
@@ -98,9 +98,12 @@ def train(model, criterion, optimizer, train_loader, val_loader):
             #train_roc_score = getROCScore(output, label)
             #train_roc_scores.extend(train_roc_score.cpu().detach())
 
-            train_EER, _ = getEER(label, pred)
-            train_EERs.extend(train_EER)
+            #train_EER, _ = getEER(label, pred)
+            #train_EERs.extend(train_EER)
 
+            print(f"Train Accuracy: " 
+                f"{sum(1 for x,y in zip(train_preds, train_labels) if x == y) / len(train_labels):.4f}")
+        
         if epoch == 5:
             torch.save_to_dict(model, CONFIG.checkpoint)
 
@@ -129,8 +132,8 @@ def train(model, criterion, optimizer, train_loader, val_loader):
                 #val_roc_score = getROCScore(output, label)
                 #val_roc_scores.extend(val_roc_score.cpu().detach())
 
-                val_EER, _ = getEER(label, pred)
-                val_EERs.extend(val_EER)
+                #val_EER, _ = getEER(label, pred)
+                #val_EERs.extend(val_EER)
 
         val_loss = val_running_loss / (idx + 1)
         print("-"*30)
@@ -142,7 +145,7 @@ def train(model, criterion, optimizer, train_loader, val_loader):
                 f"{sum(1 for x,y in zip(val_preds, val_labels) if x == y) / len(val_labels):.4f}")
         #print(f"Train ROC Score {epoch+1}: {sum(train_roc_scores) / len(train_roc_scores)}")
         #print(f"Valid ROC Score {epoch+1}: {sum(val_roc_scores) / len(val_roc_scores)}")
-        print(f"EER Score: {val_sum(EERs) / len(val_EERs)}")
+        #print(f"EER Score: {val_sum(EERs) / len(val_EERs)}")
         print("-"*30)
     
     stop = timeit.default_timer()
@@ -157,7 +160,7 @@ def test(model, test_loader):
     CM = []
     model.eval()
     with torch.no_grad():
-        for idx, data in enumerage(tqdm(test_loader)):
+        for idx, data in enumerate(tdm(test_loader)):
             img = data[0].float().to(device)
             label = data[1].to(device)
             
