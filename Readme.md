@@ -29,7 +29,7 @@ made available.
 <br>ViT tackles image-based tasks by employing patching, where an input image is subdivided
 into patches and treated as a token in an NLP task. The patches are then processed by a
 Multi-head Attention block to learn the relationships between each patch.
-<br>![ViT Pipeline](ViT_pipeline.png)
+<br>![ViT Pipeline](./papers/ViT_pipeline.png)
 <br>Because audio is a time-based data, spectrograms need to be evaluated along both the 
 x and y axes. Consequently, the idea behind using ViT for ASR is to take advantage of the 
 patching concept but instead of subdividing into squares,the spectrogram was patched into 
